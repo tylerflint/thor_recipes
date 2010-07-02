@@ -1,13 +1,27 @@
+
+require 'rubygems'
+require 'cloudservers'
+
 class Tinybutler < Thor
   
   desc "new", "create a new client project"
   def new
     client_name = ask "Client name or identifier"
     prepare_git( client_name )
+    
     # start cloud server instance
     
     # setup cloud server instance
     
+  end
+  
+  desc "list-clouds", "list all of our cloud instances"
+  def list_clouds
+    # cloud handle
+    cloud = CloudServers::Connection.new(:username => 'tylerflint', :api_key => "4ea6f614df6acdac1f6333b03ae83d98")
+    cloud.servers.each do |server|
+      puts server[:name]
+    end
   end
   
 protected
@@ -44,6 +58,10 @@ protected
     `git checkout master`
     # cleanup git
     `git clean -d -f`
+  end
+  
+  def start_cloud_instance(name)
+    
   end
   
 end
