@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'erb'
+
+# ensure we have the capistrano gem installed...
+if !Gem.available? 'thor'
+	puts "Thor gem is required: sudo gem install thor"
+	exit
+end
+
+# home directory
+home = ENV['HOME']
+
+# installed directory
+installed_dir = File.dirname(__FILE__)
+installed_dir = Dir.pwd if installed_dir == '.'
+
+capfile_contents = ERB.new %q{
+  Dir['<%= installed_dir %>/*.rb'].each {|file| require file }
+}
+
+File.open(home + "/thor_recipes.thor", 'w') {|f| f.write(capfile_contents.result) }
+
+puts "Installation complete!"
