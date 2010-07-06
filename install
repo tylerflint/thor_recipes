@@ -17,6 +17,7 @@ installed_dir = File.dirname(__FILE__)
 installed_dir = Dir.pwd if installed_dir == '.'
 
 capfile_contents = ERB.new %q{
+  $LOAD_PATH << '<%= installed_dir %>/lib'
   Dir['<%= installed_dir %>/*.rb'].each {|file| require file }
 }
 
